@@ -1,28 +1,28 @@
 "use strict";
 
-const view  = document.getElementById('view');
-const canvasWrapper = document.getElementById('canvas-wrapper');
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const buttonsContainer = document.getElementById('buttons');
-const finishButton = document.getElementById('finish');
-const finishHolder = document.getElementById('finish-holder');
-const backButton = document.getElementById('back');
+var view  = document.getElementById('view');
+var canvasWrapper = document.getElementById('canvas-wrapper');
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+var buttonsContainer = document.getElementById('buttons');
+var finishButton = document.getElementById('finish');
+var finishHolder = document.getElementById('finish-holder');
+var backButton = document.getElementById('back');
 
-let spriteLoaded = false;
-let touchedObject = -1;
-let selectedObject = null;
-let objectsOnCanvas = [];
+var spriteLoaded = false;
+var touchedObject = -1;
+var selectedObject = null;
+var objectsOnCanvas = [];
 
-let scale = 1;
+var scale = 1;
 
-let cursorStartX = null;
-let cursorStartY = null;
-let objStartX = null;
-let objStartY = null;
+var cursorStartX = null;
+var cursorStartY = null;
+var objStartX = null;
+var objStartY = null;
 
 function Filters() {
-	const filterValues = {
+	var filterValues = {
 		'brigthness': 100,
 		'contrast': 100,
 		'grayscale': 0,
@@ -49,6 +49,12 @@ function Filters() {
 	}
 
 	this.apply = function(context) {
+		var filters;
+
+		for (var i = filterValues.length - 1; i >= 0; i--) {
+			filters += filterValues[i] + '(' + 
+		}
+
 		context.filter = `
 			brightness(${filterValues['brigthness']}%)
 			contrast(${filterValues['contrast']}%)
@@ -58,10 +64,14 @@ function Filters() {
 			sepia(${filterValues['sepia']}%)
 		`;
 	}
+
+	function setFilter(filter) {
+		return filter + '(' + filterValues[filter] + '%)';
+	}
 }
 
-const filters = new Filters();
-const sprite = new Image();
+var filters = new Filters();
+var sprite = new Image();
 
 sprite.onload = function() {
 	bgSound.play();
@@ -77,7 +87,7 @@ sprite.onload = function() {
 
 sprite.src = '/assets/img/sprite/jeanneret.png';
 
-const spriteMap = [
+var spriteMap = [
 	[0, 0, 730, 634],
 	[730, 0, 207, 505],
 	[937, 0, 204, 183],
@@ -92,12 +102,12 @@ const spriteMap = [
 	[2480, 0, 329, 143]
 ];
 
-const bgSound = new Howl({
+var bgSound = new Howl({
 	src: ['/assets/sounds/background1.wav'],
 	loop: true
 });
 
-const clickSounds = [
+var clickSounds = [
 	new Howl({src: '/assets/sounds/clickrelexivo.wav'}),
 	new Howl({src: '/assets/sounds/clickondulado2.wav'}),
 	new Howl({src: '/assets/sounds/clickfunny.wav'}),
@@ -114,8 +124,8 @@ function createObjectsButtons() {
 	spriteMap.forEach((obj, i) => {
 		if (i === 0) return;
 
-		const newSizes = getNewSizes(...obj);
-		const button = document.createElement('button');
+		var newSizes = getNewSizes(...obj);
+		var button = document.createElement('button');
 
 		button.className = 'itemButton';
 
@@ -133,14 +143,14 @@ function createObjectsButtons() {
 	});
 
 	function getNewSizes(x, y, w, h) {
-		const maxWidth = 64;
-		const maxHeight = 64;
+		var maxWidth = 64;
+		var maxHeight = 64;
 
-		let diff;
-		let newSpriteWidth = sprite.width;
-		let newSpriteHeight = sprite.height;
-		let newPosX = x;
-		let newPosY = y;
+		var diff;
+		var newSpriteWidth = sprite.width;
+		var newSpriteHeight = sprite.height;
+		var newPosX = x;
+		var newPosY = y;
 
 		/*if (w > maxWidth) {
 			diff = maxWidth / w;
@@ -171,9 +181,9 @@ function createObjectsButtons() {
 }
 
 function toogleObject() {
-	const id = Number(this.dataset.objectId);
-	const item = spriteMap[id];
-	const onCanvas = objectsOnCanvas.findIndex(obj => obj.id === id);
+	var id = Number(this.dataset.objectId);
+	var item = spriteMap[id];
+	var onCanvas = objectsOnCanvas.findIndex(obj => obj.id === id);
 
 	if (onCanvas >= 0) {
 		objectsOnCanvas.splice(onCanvas, 1);
@@ -209,8 +219,8 @@ function handleResize() {
 	canvas.width = canvasWrapper.clientWidth;
 	canvas.height = canvasWrapper.clientHeight;
 
-	const canvasRatio = canvas.width / canvas.height;
-	const bgRatio = spriteMap[0][2] / spriteMap[0][3];
+	var canvasRatio = canvas.width / canvas.height;
+	var bgRatio = spriteMap[0][2] / spriteMap[0][3];
 
 	scale = canvas.width / spriteMap[0][2];
 
@@ -222,10 +232,10 @@ function handleResize() {
 function paintBg() {
 	if (!spriteLoaded) return;
 
-	const s = spriteMap[0];
+	var s = spriteMap[0];
 
-	const xCenter = Math.floor(canvas.width / 2 - (s[2] * scale) / 2);
-	const yCenter = Math.floor(canvas.height / 2 - (s[3] * scale) / 2);
+	var xCenter = Math.floor(canvas.width / 2 - (s[2] * scale) / 2);
+	var yCenter = Math.floor(canvas.height / 2 - (s[3] * scale) / 2);
 
 	ctx.drawImage(sprite, ...s, xCenter, yCenter, s[2] * scale, s[3] * scale);
 }
@@ -234,8 +244,8 @@ function paintObjects() {
 	if (!spriteLoaded) return;
 
 	objectsOnCanvas.forEach(s => {
-		const xPos = s.x - Math.floor((s.sprite[2] * scale)/2);
-		const yPos = s.y - Math.floor((s.sprite[3] * scale)/2);
+		var xPos = s.x - Math.floor((s.sprite[2] * scale)/2);
+		var yPos = s.y - Math.floor((s.sprite[3] * scale)/2);
 
 		ctx.drawImage(sprite, ...s.sprite, xPos, yPos, s.sprite[2] * scale, s.sprite[3] * scale);
 	});
@@ -250,13 +260,13 @@ function draw() {
 }
 
 function indexOfSelectedObject(coords) {
-  for (let i = objectsOnCanvas.length - 1; i >= 0; i--) {
-    let obj = objectsOnCanvas[i];
+  for (var i = objectsOnCanvas.length - 1; i >= 0; i--) {
+    var obj = objectsOnCanvas[i];
 
-	let objLeft = obj.x - (obj.sprite[2] * scale/2);
-	let objRight = obj.x + (obj.sprite[2] * scale/2);
-	let objTop = obj.y - (obj.sprite[3] * scale/2);
-	let objBottom = obj.y + (obj.sprite[3] * scale/2);
+	var objLeft = obj.x - (obj.sprite[2] * scale/2);
+	var objRight = obj.x + (obj.sprite[2] * scale/2);
+	var objTop = obj.y - (obj.sprite[3] * scale/2);
+	var objBottom = obj.y + (obj.sprite[3] * scale/2);
 
     // DEBUGGING
     //ctx.strokeRect(objLeft, objTop, objRight-objLeft, objBottom-objTop);
@@ -272,8 +282,8 @@ function indexOfSelectedObject(coords) {
 function onTouchStartOrMouseDown(e) {
   e.preventDefault();
 
-  const touch = e.changedTouches && e.changedTouches.length ? e.changedTouches[0] : null;
-  const coords = touch ? { x: touch.pageX - canvas.offsetLeft, y: touch.pageY - canvas.offsetTop} : { x: e.offsetX, y: e.offsetY};
+  var touch = e.changedTouches && e.changedTouches.length ? e.changedTouches[0] : null;
+  var coords = touch ? { x: touch.pageX - canvas.offsetLeft, y: touch.pageY - canvas.offsetTop} : { x: e.offsetX, y: e.offsetY};
 
   cursorStartX = coords.x;
   cursorStartY = coords.y;
@@ -281,7 +291,7 @@ function onTouchStartOrMouseDown(e) {
   touchedObject = indexOfSelectedObject(coords);
 
   if (touchedObject > -1) {
-  	let soundIndex = touchedObject > 7 ? touchedObject % 8 : touchedObject;
+  	var soundIndex = touchedObject > 7 ? touchedObject % 8 : touchedObject;
 	
 	clickSounds[soundIndex].play();
 
@@ -296,14 +306,14 @@ function onTouchStartOrMouseDown(e) {
 function onTouchMoveOrMouseMove(e) {
   e.preventDefault();
 
-  const touches = e.changedTouches || [];
-  const touch1 = touches.length ? touches[0] : null;
-  const touch2 = touches.length > 1 ? touches[1] : null;
+  var touches = e.changedTouches || [];
+  var touch1 = touches.length ? touches[0] : null;
+  var touch2 = touches.length > 1 ? touches[1] : null;
 
-  const coords = touch1 ? { x: touch1.pageX - canvas.offsetLeft, y: touch1.pageY - canvas.offsetTop} : { x: e.offsetX, y: e.offsetY};
+  var coords = touch1 ? { x: touch1.pageX - canvas.offsetLeft, y: touch1.pageY - canvas.offsetTop} : { x: e.offsetX, y: e.offsetY};
 
   if (touchedObject >= 0) {
-    const obj = objectsOnCanvas[touchedObject];
+    var obj = objectsOnCanvas[touchedObject];
 
 	obj.x = objStartX - (cursorStartX - coords.x);
 	obj.y = objStartY - (cursorStartY - coords.y);
@@ -314,7 +324,7 @@ function onTouchMoveOrMouseMove(e) {
 
 function onTouchEndOrMouseUp(e) {
 	if (touchedObject > -1) {
-		let soundIndex = touchedObject > 7 ? touchedObject % 8 : touchedObject;
+		var soundIndex = touchedObject > 7 ? touchedObject % 8 : touchedObject;
   		clickSounds[soundIndex].stop();
   		touchedObject = -1;
 	}
@@ -325,8 +335,8 @@ function onTouchEndOrMouseUp(e) {
 }
 
 function finish() {
-	const imageData = canvas.toDataURL();
-	const image = new Image();
+	var imageData = canvas.toDataURL();
+	var image = new Image();
 	image.src = imageData;
 
 	finishHolder.appendChild(image);
