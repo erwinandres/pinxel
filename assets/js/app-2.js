@@ -1,28 +1,109 @@
 "use strict";
 
-const view  = document.getElementById('view');
-const canvasWrapper = document.getElementById('canvas-wrapper');
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const buttonsContainer = document.getElementById('buttons');
-const finishButton = document.getElementById('finish');
-const finishHolder = document.getElementById('finish-holder');
-const backButton = document.getElementById('back');
+// Production steps of ECMA-262, Edition 5, 15.4.4.18
+// Reference: http://es5.github.com/#x15.4.4.18
+if (!Array.prototype.forEach) {
 
-let spriteLoaded = false;
-let touchedObject = -1;
-let selectedObject = null;
-let objectsOnCanvas = [];
+  Array.prototype.forEach = function forEach(callback, thisArg) {
+    'use strict';
+    var T, k;
 
-let scale = 1;
+    if (this == null) {
+      throw new TypeError("this is null or not defined");
+    }
 
-let cursorStartX = null;
-let cursorStartY = null;
-let objStartX = null;
-let objStartY = null;
+    var kValue,
+        // 1. Let O be the result of calling ToObject passing the |this| value as the argument.
+        O = Object(this),
+
+        // 2. Let lenValue be the result of calling the Get internal method of O with the argument "length".
+        // 3. Let len be ToUint32(lenValue).
+        len = O.length >>> 0; // Hack to convert O.length to a UInt32
+
+    // 4. If IsCallable(callback) is false, throw a TypeError exception.
+    // See: http://es5.github.com/#x9.11
+    if ({}.toString.call(callback) !== "[object Function]") {
+      throw new TypeError(callback + " is not a function");
+    }
+
+    // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
+    if (arguments.length >= 2) {
+      T = thisArg;
+    }
+
+    // 6. Let k be 0
+    k = 0;
+
+    // 7. Repeat, while k < len
+    while (k < len) {
+
+      // a. Let Pk be ToString(k).
+      //   This is implicit for LHS operands of the in operator
+      // b. Let kPresent be the result of calling the HasProperty internal method of O with argument Pk.
+      //   This step can be combined with c
+      // c. If kPresent is true, then
+      if (k in O) {
+
+        // i. Let kValue be the result of calling the Get internal method of O with argument Pk.
+        kValue = O[k];
+
+        // ii. Call the Call internal method of callback with T as the this value and
+        // argument list containing kValue, k, and O.
+        callback.call(T, kValue, k, O);
+      }
+      // d. Increase k by 1.
+      k++;
+    }
+    // 8. return undefined
+  };
+}
+
+if (!Array.prototype.findIndex) {
+  Array.prototype.findIndex = function(predicate) {
+    if (this === null) {
+      throw new TypeError('Array.prototype.findIndex called on null or undefined');
+    }
+    if (typeof predicate !== 'function') {
+      throw new TypeError('predicate must be a function');
+    }
+    var list = Object(this);
+    var length = list.length >>> 0;
+    var thisArg = arguments[1];
+    var value;
+
+    for (var i = 0; i < length; i++) {
+      value = list[i];
+      if (predicate.call(thisArg, value, i, list)) {
+        return i;
+      }
+    }
+    return -1;
+  };
+}
+
+var view  = document.getElementById('view');
+var canvasWrapper = document.getElementById('canvas-wrapper');
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+var buttonsContainer = document.getElementById('buttons');
+var finishButton = document.getElementById('finish');
+var finishHolder = document.getElementById('finish-holder');
+var backButton = document.getElementById('back');
+
+var spriteLoaded = false;
+var touchedObject = -1;
+var selectedObject = null;
+var objectsOnCanvas = [];
+
+var scale = 1;
+
+var cursorStartX = null;
+var cursorStartY = null;
+var objStartX = null;
+var objStartY = null;
 
 function Filters() {
-	const filterValues = {
+	var filterValues = {
 		'brigthness': 100,
 		'contrast': 100,
 		'grayscale': 0,
@@ -49,19 +130,16 @@ function Filters() {
 	}
 
 	this.apply = function(context) {
-		context.filter = `
-			brightness(${filterValues['brigthness']}%)
-			contrast(${filterValues['contrast']}%)
-			grayScale(${filterValues['grayscale']}%)
-			hue-rotate(${filterValues['hue-rotate']}deg)
-			saturate(${filterValues['saturate']}%)
-			sepia(${filterValues['sepia']}%)
-		`;
+		context.filter = 'brightness(' + filterValues['brigthness'] + '%) contrast(' +  filterValues['contrast'] + '%) grayScale(' + filterValues['grayscale'] +'%) hue-rotate(' + filterValues['hue-rotate'] + 'deg) saturate(' + filterValues['saturate'] + '%) sepia(' + filterValues['sepia'] + '%)';
+	}
+
+	function setFilter(filter) {
+		return filter + '(' + filterValues[filter] + '%)';
 	}
 }
 
-const filters = new Filters();
-const sprite = new Image();
+var filters = new Filters();
+var sprite = new Image();
 
 sprite.onload = function() {
 	bgSound.play();
@@ -129,27 +207,27 @@ function createObjectsButtons() {
 		button.className = 'itemButton';
 
 		button.style.backgroundImage = 'url(/assets/img/sprite/lennon.png)';
-		button.style.width = `${newSizes.tileW}px`;
-		button.style.height = `${newSizes.tileH}px`;
-		button.style.backgroundPosition = `-${newSizes.tileX}px -${newSizes.tileY}px`;
-		button.style.backgroundSize = `${newSizes.spriteW}px ${newSizes.spriteH}px`
+		button.style.width = newSizes.tileW + 'px';
+		button.style.height = newSizes.tileH + 'px';
+		button.style.backgroundPosition = '-' + newSizes.tileX + 'px -' + newSizes.tileY + 'px';
+		button.style.backgroundSize = newSizes.spriteW + 'px ' + newSizes.spriteH + 'px';
 
 		button.dataset.objectId = i;
-		button.innerHTML = `Item ${i}`;
+		button.innerHTML = 'Item ' + i;
 		button.addEventListener('click', toogleObject);
 
 		buttonsContainer.appendChild(button);
 	});
 
 	function getNewSizes(x, y, w, h) {
-		const maxWidth = 64;
-		const maxHeight = 64;
+		var maxWidth = 64;
+		var maxHeight = 64;
 
-		let diff;
-		let newSpriteWidth = sprite.width;
-		let newSpriteHeight = sprite.height;
-		let newPosX = x;
-		let newPosY = y;
+		var diff;
+		var newSpriteWidth = sprite.width;
+		var newSpriteHeight = sprite.height;
+		var newPosX = x;
+		var newPosY = y;
 
 		/*if (w > maxWidth) {
 			diff = maxWidth / w;
@@ -180,9 +258,9 @@ function createObjectsButtons() {
 }
 
 function toogleObject() {
-	const id = Number(this.dataset.objectId);
-	const item = spriteMap[id];
-	const onCanvas = objectsOnCanvas.findIndex(obj => obj.id === id);
+	var id = Number(this.dataset.objectId);
+	var item = spriteMap[id];
+	var onCanvas = objectsOnCanvas.findIndex(obj => obj.id === id);
 
 	if (onCanvas >= 0) {
 		objectsOnCanvas.splice(onCanvas, 1);
@@ -218,8 +296,8 @@ function handleResize() {
 	canvas.width = canvasWrapper.clientWidth;
 	canvas.height = canvasWrapper.clientHeight;
 
-	const canvasRatio = canvas.width / canvas.height;
-	const bgRatio = spriteMap[0][2] / spriteMap[0][3];
+	var canvasRatio = canvas.width / canvas.height;
+	var bgRatio = spriteMap[0][2] / spriteMap[0][3];
 
 	scale = canvas.width / spriteMap[0][2];
 
@@ -231,10 +309,10 @@ function handleResize() {
 function paintBg() {
 	if (!spriteLoaded) return;
 
-	const s = spriteMap[0];
+	var s = spriteMap[0];
 
-	const xCenter = Math.floor(canvas.width / 2 - (s[2] * scale) / 2);
-	const yCenter = Math.floor(canvas.height / 2 - (s[3] * scale) / 2);
+	var xCenter = Math.floor(canvas.width / 2 - (s[2] * scale) / 2);
+	var yCenter = Math.floor(canvas.height / 2 - (s[3] * scale) / 2);
 
 	ctx.drawImage(sprite, ...s, xCenter, yCenter, s[2] * scale, s[3] * scale);
 }
@@ -243,8 +321,8 @@ function paintObjects() {
 	if (!spriteLoaded) return;
 
 	objectsOnCanvas.forEach(s => {
-		const xPos = s.x - Math.floor((s.sprite[2] * scale)/2);
-		const yPos = s.y - Math.floor((s.sprite[3] * scale)/2);
+		var xPos = s.x - Math.floor((s.sprite[2] * scale)/2);
+		var yPos = s.y - Math.floor((s.sprite[3] * scale)/2);
 
 		ctx.drawImage(sprite, ...s.sprite, xPos, yPos, s.sprite[2] * scale, s.sprite[3] * scale);
 	});
@@ -259,13 +337,13 @@ function draw() {
 }
 
 function indexOfSelectedObject(coords) {
-  for (let i = objectsOnCanvas.length - 1; i >= 0; i--) {
-    let obj = objectsOnCanvas[i];
+  for (var i = objectsOnCanvas.length - 1; i >= 0; i--) {
+    var obj = objectsOnCanvas[i];
 
-	let objLeft = obj.x - (obj.sprite[2] * scale/2);
-	let objRight = obj.x + (obj.sprite[2] * scale/2);
-	let objTop = obj.y - (obj.sprite[3] * scale/2);
-	let objBottom = obj.y + (obj.sprite[3] * scale/2);
+	var objLeft = obj.x - (obj.sprite[2] * scale/2);
+	var objRight = obj.x + (obj.sprite[2] * scale/2);
+	var objTop = obj.y - (obj.sprite[3] * scale/2);
+	var objBottom = obj.y + (obj.sprite[3] * scale/2);
 
     // DEBUGGING
     //ctx.strokeRect(objLeft, objTop, objRight-objLeft, objBottom-objTop);
@@ -281,8 +359,8 @@ function indexOfSelectedObject(coords) {
 function onTouchStartOrMouseDown(e) {
   e.preventDefault();
 
-  const touch = e.changedTouches && e.changedTouches.length ? e.changedTouches[0] : null;
-  const coords = touch ? { x: touch.pageX - canvas.offsetLeft, y: touch.pageY - canvas.offsetTop} : { x: e.offsetX, y: e.offsetY};
+  var touch = e.changedTouches && e.changedTouches.length ? e.changedTouches[0] : null;
+  var coords = touch ? { x: touch.pageX - canvas.offsetLeft, y: touch.pageY - canvas.offsetTop} : { x: e.offsetX, y: e.offsetY};
 
   cursorStartX = coords.x;
   cursorStartY = coords.y;
@@ -290,7 +368,7 @@ function onTouchStartOrMouseDown(e) {
   touchedObject = indexOfSelectedObject(coords);
 
   if (touchedObject > -1) {
-  	let soundIndex = touchedObject > 7 ? touchedObject % 8 : touchedObject;
+  	var soundIndex = touchedObject > 7 ? touchedObject % 8 : touchedObject;
 	
 	clickSounds[soundIndex].play();
 
@@ -305,14 +383,14 @@ function onTouchStartOrMouseDown(e) {
 function onTouchMoveOrMouseMove(e) {
   e.preventDefault();
 
-  const touches = e.changedTouches || [];
-  const touch1 = touches.length ? touches[0] : null;
-  const touch2 = touches.length > 1 ? touches[1] : null;
+  var touches = e.changedTouches || [];
+  var touch1 = touches.length ? touches[0] : null;
+  var touch2 = touches.length > 1 ? touches[1] : null;
 
-  const coords = touch1 ? { x: touch1.pageX - canvas.offsetLeft, y: touch1.pageY - canvas.offsetTop} : { x: e.offsetX, y: e.offsetY};
+  var coords = touch1 ? { x: touch1.pageX - canvas.offsetLeft, y: touch1.pageY - canvas.offsetTop} : { x: e.offsetX, y: e.offsetY};
 
   if (touchedObject >= 0) {
-    const obj = objectsOnCanvas[touchedObject];
+    var obj = objectsOnCanvas[touchedObject];
 
 	obj.x = objStartX - (cursorStartX - coords.x);
 	obj.y = objStartY - (cursorStartY - coords.y);
@@ -323,7 +401,7 @@ function onTouchMoveOrMouseMove(e) {
 
 function onTouchEndOrMouseUp(e) {
 	if (touchedObject > -1) {
-		let soundIndex = touchedObject > 7 ? touchedObject % 8 : touchedObject;
+		var soundIndex = touchedObject > 7 ? touchedObject % 8 : touchedObject;
   		clickSounds[soundIndex].stop();
   		touchedObject = -1;
 	}
@@ -334,8 +412,8 @@ function onTouchEndOrMouseUp(e) {
 }
 
 function finish() {
-	const imageData = canvas.toDataURL();
-	const image = new Image();
+	var imageData = canvas.toDataURL();
+	var image = new Image();
 	image.src = imageData;
 
 	finishHolder.appendChild(image);
