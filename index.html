@@ -35,9 +35,24 @@
 			<a href="/info" style="background: #f9ae18">Info</a>
 		</div>
 	</header>
-	<div class="mosaico">
-		<a class="nimg" href="/mural/modosorzano/jeanneret/"><img src="/assets/img/mosaicos/nmuerta/cuadro1.jpg" width="4041" height="3119"></a>
-		<a href="/mural/modosorzano/lennon/"><img src="/assets/img/mosaicos/nmuerta/cuadro34.jpg" width="4160" height="3119"></a>
+	<div id="view" class="view">
+		<div class="appWrapper">
+			<div id="canvas-wrapper" class="canvasWrapper">
+				<canvas id="canvas" width="730" height="300"></canvas>
+			</div>
+
+			<div class="buttonsList" id="buttons"></div>
+			<button id="finish" class="finishButton">Finalizar</button>
+		</div>
+		<div class="appWrapper instructivo">
+			<p>Para ensamblar tu obra haz click sobre el elemento y arrástralo hasta el lugar deseado.<br>Haz click en el botón "Finalizar" para poder descargar.</p>
+		</div>
+		<div class="result">
+			<div id="finish-holder" class="resultWrapper"></div>
+			<button id="back" class="backToEdit">Seguir editando</button>
+
+			<p class="help">Manten presionada (Móvil), arrastra o haz click derecho (PC) en la imagen para guardarla.</p>
+		</div>
 	</div>
 </body>
 </html>
