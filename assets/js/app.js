@@ -130,7 +130,7 @@ function Filters() {
 	}
 
 	this.apply = function(context) {
-		context.filter = 'brightness(' + filterValues['brigthness'] + '%) contrast(' +  filterValues['contrast'] '%) grayScale(' + filterValues['grayscale'] +'%) hue-rotate(' + filterValues['hue-rotate'] + 'deg) saturate(' + filterValues['saturate'] + '%) sepia(' + filterValues['sepia'] + '%)';
+		context.filter = 'brightness(' + filterValues['brigthness'] + '%) contrast(' +  filterValues['contrast'] + '%) grayScale(' + filterValues['grayscale'] +'%) hue-rotate(' + filterValues['hue-rotate'] + 'deg) saturate(' + filterValues['saturate'] + '%) sepia(' + filterValues['sepia'] + '%)';
 	}
 
 	function setFilter(filter) {
@@ -199,9 +199,9 @@ function createObjectsButtons() {
 
 		button.style.backgroundImage = 'url(/assets/img/sprite/jeanneret.png)';
 		button.style.width = newSizes.tileW + 'px';
-		button.style.height = newSizes.tileH 'px';
-		button.style.backgroundPosition = '-' + newSizes.tileX 'px -' + newSizes.tileY + 'px';
-		button.style.backgroundSize = newSizes.spriteW + 'px' + newSizes.spriteH + 'px';
+		button.style.height = newSizes.tileH + 'px';
+		button.style.backgroundPosition = '-' + newSizes.tileX + 'px -' + newSizes.tileY + 'px';
+		button.style.backgroundSize = newSizes.spriteW + 'px ' + newSizes.spriteH + 'px';
 
 		button.dataset.objectId = i;
 		button.innerHTML = 'Item ' + i;
