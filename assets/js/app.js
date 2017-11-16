@@ -49,20 +49,7 @@ function Filters() {
 	}
 
 	this.apply = function(context) {
-		var filters;
-
-		for (var i = filterValues.length - 1; i >= 0; i--) {
-			filters += filterValues[i] + '(' + 
-		}
-
-		context.filter = `
-			brightness(${filterValues['brigthness']}%)
-			contrast(${filterValues['contrast']}%)
-			grayScale(${filterValues['grayscale']}%)
-			hue-rotate(${filterValues['hue-rotate']}deg)
-			saturate(${filterValues['saturate']}%)
-			sepia(${filterValues['sepia']}%)
-		`;
+		context.filter = 'brightness(' + filterValues['brigthness'] + '%) contrast(' +  filterValues['contrast'] '%) grayScale(' + filterValues['grayscale'] +'%) hue-rotate(' + filterValues['hue-rotate'] + 'deg) saturate(' + filterValues['saturate'] + '%) sepia(' + filterValues['sepia'] + '%)';
 	}
 
 	function setFilter(filter) {
@@ -124,19 +111,19 @@ function createObjectsButtons() {
 	spriteMap.forEach((obj, i) => {
 		if (i === 0) return;
 
-		var newSizes = getNewSizes(...obj);
+		var newSizes = getNewSizes(obj[0], obj[1], obj[2], obj[3]);
 		var button = document.createElement('button');
 
 		button.className = 'itemButton';
 
 		button.style.backgroundImage = 'url(/assets/img/sprite/jeanneret.png)';
-		button.style.width = `${newSizes.tileW}px`;
-		button.style.height = `${newSizes.tileH}px`;
-		button.style.backgroundPosition = `-${newSizes.tileX}px -${newSizes.tileY}px`;
-		button.style.backgroundSize = `${newSizes.spriteW}px ${newSizes.spriteH}px`
+		button.style.width = newSizes.tileW + 'px';
+		button.style.height = newSizes.tileH 'px';
+		button.style.backgroundPosition = '-' + newSizes.tileX 'px -' + newSizes.tileY + 'px';
+		button.style.backgroundSize = newSizes.spriteW + 'px' + newSizes.spriteH + 'px';
 
 		button.dataset.objectId = i;
-		button.innerHTML = `Item ${i}`;
+		button.innerHTML = 'Item ' + i;
 		button.addEventListener('click', toogleObject);
 
 		buttonsContainer.appendChild(button);
