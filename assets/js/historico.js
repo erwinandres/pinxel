@@ -9,16 +9,13 @@ var pinxelActive = false;
 
 image.onload = function() {
 	canvas.width = image.width;
-	if (canvas.width > 730) {
-		canvas.width = 730;
+	if (canvas.width > 420) {
+		canvas.width = 420;
 	}
 
 	var ratio = image.width/canvas.width;
 
 	canvas.height = image.height / ratio;
-
-	image.width = canvas.width;
-	image.height = canvas.height;
 
 	drawImage();
 
@@ -41,8 +38,11 @@ function pinxel() {
 	// get a block size (see demo for this approach)
 	var size = 40;
 
-	setInterval(function() {
-		if (size <= 10) return;
+	var loop = setInterval(function() {
+		if (size <= 20) {
+			clearInterval(loop);
+			return;
+		};
 
 		size -= 10;
 		console.log(size);
