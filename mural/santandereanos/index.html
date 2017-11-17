@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="theme-color" content="#000"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>PInXEL - Mural</title>
+	<link href="/assets/css/font.css" type="text/css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/assets/css/mural.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/main2.css">
+	<link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+	<style type="text/css">
+		.mosaico{
+			text-align: center;
+			margin: 0 auto;
+		}
+		.mosaico img{
+			height: 200px;
+			width: auto;
+			margin: 20px;
+		}
+		.mosaico .nimg{
+			margin-top: 30px;
+			margin-bottom: 30px;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="logopinxel">
+			<img src="/assets/img/logopinxel.png" width="627" height="203">
+		</div>
+		<div class="buttons">
+			<a href="/" style="background: #00aeef">Inicio</a>
+			<a href="/info" style="background: #f9ae18">Info</a>
+		</div>
+	</header>
+	<div class="mosaico">
+		<a href="/mural/santandereanos/augusto-vidal"><img src="/assets/img/mosaicos/santandereanos/augusto-vidal.jpg"></a>
+		<a href="/mural/santandereanos/barbara-cardozo"><img src="/assets/img/mosaicos/santandereanos/barbara-cardozo.jpg"></a>
+		<a href="/mural/santandereanos/beatriz-gonzalez"><img src="/assets/img/mosaicos/santandereanos/beatriz-gonzalez.jpg"></a>
+		<a href="/mural/santandereanos/eze"><img src="/assets/img/mosaicos/santandereanos/Ezequiel-Alarcón.JPG"></a>
+		<a href="/mural/santandereanos/guille"><img src="/assets/img/mosaicos/santandereanos/Guillermo-Quintero.jpg"></a>
+		<a href="/mural/santandereanos/jaime"><img src="/assets/img/mosaicos/santandereanos/Jaime-Tarazona.jpg"></a>
+		<a href="/mural/santandereanos/juanjocobo"><img src="/assets/img/mosaicos/santandereanos/Juan-Cobos.jpg"></a>
+		<a href="/mural/santandereanos/juliana"><img src="/assets/img/mosaicos/santandereanos/Juliana-Silva.jpg"></a>
+		<a href="/mural/santandereanos/maximo"><img src="/assets/img/mosaicos/santandereanos/Máximo-FlóreLopéz.jpg"></a>
+		<a href="/mural/santandereanos/maximo2"><img src="/assets/img/mosaicos/santandereanos/Máximo-Flórez2.jpg"></a>
+		<a href="/mural/santandereanos/nicolas"><img src="/assets/img/mosaicos/santandereanos/Nicolas-Consuegra.jpg"></a>
+		<a href="/mural/santandereanos/oscarmartinez"><img src="/assets/img/mosaicos/santandereanos/Oscar-Martínez.jpg"></a>
+		<a href="/mural/santandereanos/oscarsalamanga"><img src="/assets/img/mosaicos/santandereanos/Oscar-Salamanca.jpg"></a>
+		<a href="/mural/santandereanos/ricardo"><img src="/assets/img/mosaicos/santandereanos/Ricardo-Alipio.jpg"></a>
+		<a href="/mural/santandereanos/sorzano"><img src="/assets/img/mosaicos/santandereanos/Gustavo-Sorzano.jpg"></a>
+	</div>
+	<script>
+		var colors = ['#23408f', '#00aeef', '#f05a72', '#f9ae18', '#832b7c', '#217d51', '#9dc55c', '#00a050', '#fff200', '#dde4cd',' #d0bf7d', '#008f4c'];
+
+		function randomInt(min, max) {
+			return Math.floor(Math.random() * (max - min + 1) + min);
+		}
+
+		var randomColor = colors[randomInt(0, colors.length)];
+		document.body.style.backgroundColor = randomColor;
+
+		var themeColorMeta = document.querySelector('meta[name="theme-color"]');
+		themeColorMeta.setAttribute('content', randomColor);
+	</script>
+</body>
+</html>

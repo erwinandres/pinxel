@@ -37,6 +37,9 @@
 
 		var randomColor = colors[randomInt(0, colors.length)];
 		document.body.style.backgroundColor = randomColor;
+
+		var themeColorMeta = document.querySelector('meta[name="theme-color"]');
+		themeColorMeta.setAttribute('content', randomColor);
 	</script>
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

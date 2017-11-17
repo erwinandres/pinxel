@@ -59,6 +59,9 @@
 
 		var randomColor = colors[randomInt(0, colors.length)];
 		document.body.style.backgroundColor = randomColor;
+
+		var themeColorMeta = document.querySelector('meta[name="theme-color"]');
+		themeColorMeta.setAttribute('content', randomColor);
 	</script>
 </body>
 </html>
