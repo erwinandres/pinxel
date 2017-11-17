@@ -9,8 +9,8 @@ var pinxelActive = false;
 
 image.onload = function() {
 	canvas.width = image.width;
-	if (canvas.width > 420) {
-		canvas.width = 420;
+	if (canvas.width > 320) {
+		canvas.width = 320;
 	}
 
 	var ratio = image.width/canvas.width;
