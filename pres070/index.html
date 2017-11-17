@@ -28,5 +28,15 @@
 	<div class="videoPlayer">
 		<iframe class="videoPlayer-iframe" width="560" height="315" src="https://www.youtube.com/embed/5qqjFP7SXw0?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 	</div>
+	<script>
+		var colors = ['#23408f', '#00aeef', '#f05a72', '#f9ae18', '#832b7c', '#217d51', '#9dc55c', '#00a050', '#fff200', '#dde4cd',' #d0bf7d', '#008f4c'];
+
+		function randomInt(min, max) {
+			return Math.floor(Math.random() * (max - min + 1) + min);
+		}
+
+		var randomColor = colors[randomInt(0, colors.length)];
+		document.body.style.backgroundColor = randomColor;
+	</script>
 </body>
 </html>
