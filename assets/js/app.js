@@ -452,8 +452,9 @@ function postImage(image) {
 		body: form
 	})
 		.then(res => res.json())
-		.then(data => {
-			progressText.innerHTML = '<p>Tu obra de arte ha sido subida.</p>';
+		.then(json => {
+			progressText.innerHTML = '<p>Tu obra de arte ha sido subida.</p><p>Redireccionando...</p>';
+			window.location.replace('/galeria');;
 		})
 }
 

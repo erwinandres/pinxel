@@ -3,12 +3,27 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>PInXEL - Mural</title>
-	<link href="/assets/css/font.css" type="text/css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="/assets/css/mural.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/main2.css">
+	<title>PInXEL - Galería</title>
+	<meta name="theme-color" content="#000">
 	<link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
 
+	<link href="/assets/css/font.css" type="text/css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/assets/css/main2.css">
+
+	<style>
+		.gallery {
+			margin: 4.5rem auto;
+			display: flex;
+			justify-content: space-around;
+			flex-wrap: wrap;
+			width: 90%;
+			max-width: 960px;
+		}
+
+		.gallery-item-link {
+			display: block;
+		}
+	</style>
 </head>
 <body>
 	<header>
@@ -21,13 +36,8 @@
 			<a href="/info" style="background: #f9ae18">Info</a>
 		</div>
 	</header>
-	<div class="buttmodo">
-		<div class="modo1 stilo">
-			<a href="modosorzano/">Modo Sorzano</a>
-		</div>
-		<div class="modo2 stilo">
-			<a href="historico/">Modo Arte Histórico</a>
-		</div>
+	<div>
+		<div id="gallery" class="gallery"></div>
 	</div>
 	<script>
 		var colors = ['#23408f', '#00aeef', '#f05a72', '#f9ae18', '#832b7c', '#217d51', '#9dc55c', '#00a050', '#fff200', '#dde4cd',' #d0bf7d', '#008f4c'];
@@ -41,6 +51,36 @@
 
 		var themeColorMeta = document.querySelector('meta[name="theme-color"]');
 		themeColorMeta.setAttribute('content', randomColor);
+
+		fetch('https://api.imgur.com/3/album/ojGoQ37/images', {
+			method: 'GET',
+			headers: {
+				Authorization: 'Client-ID 25515bee35a7c00',
+				Accept: 'application/json',
+			}
+		}).then(res => res.json()).then(json => {
+			for (var i = json.data.length - 1; i >= 0; i--) {
+				addImageToGallery(json.data[i].link);
+			}
+		});
+
+		var gallery = document.getElementById('gallery');
+
+		function addImageToGallery(url) {
+			var thumbUrl = [url.slice(0, -4), 's', url.slice(-4)].join('');
+			var div = document.createElement('div');
+			var a = document.createElement('a');
+			a.className = 'gallery-item-link'
+			a.href = url;
+
+			var image = new Image();
+			image.src = thumbUrl;
+
+			a.appendChild(image);
+			div.appendChild(a);
+			gallery.appendChild(div);
+		}
+
 	</script>
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
