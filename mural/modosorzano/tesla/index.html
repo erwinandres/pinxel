@@ -116,21 +116,12 @@
 
 			<p class="help">Manten presionada (Móvil), arrastra o haz click derecho (PC) en la imagen para guardarla.</p>
 		</div>
-		<div class="progress">
-			<div id="progress-text" class="progress-text"></div>
-		</div>
+	</div>
+	<div class="progress">
+		<div id="progress-text" class="progress-text"></div>
 	</div>
 
 	<script>
-		var colors = ['#23408f', '#00aeef', '#f05a72', '#f9ae18', '#832b7c', '#217d51', '#9dc55c', '#00a050', '#fff200', '#dde4cd',' #d0bf7d', '#008f4c'];
-
-		function randomInt(min, max) {
-			return Math.floor(Math.random() * (max - min + 1) + min);
-		}
-
-		var randomColor = colors[randomInt(0, colors.length)];
-		document.body.style.backgroundColor = randomColor;
-
 		var spriteURL = '/assets/img/sprite/tesla.png';
 		var spriteMap = [[0,0,776,620],[810,0,170,554],[1030,0,180,200],[1240,0,100,325],[1375,0,150,250],[1530,0,320,70],[1880,0,75,310],[2000,0,135,140],[2180,0,130,255],[2315,0,115,230],[2420,0,215,90],[2650,0,80,78],[2770,0,100,100],[2900,0,120,195]];
 	</script>

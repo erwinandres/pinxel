@@ -116,21 +116,12 @@
 
 			<p class="help">Manten presionada (Móvil), arrastra o haz click derecho (PC) en la imagen para guardarla.</p>
 		</div>
-		<div class="progress">
-			<div id="progress-text" class="progress-text"></div>
-		</div>
+	</div>
+	<div class="progress">
+		<div id="progress-text" class="progress-text"></div>
 	</div>
 
 	<script>
-		var colors = ['#23408f', '#00aeef', '#f05a72', '#f9ae18', '#832b7c', '#217d51', '#9dc55c', '#00a050', '#fff200', '#dde4cd',' #d0bf7d', '#008f4c'];
-
-		function randomInt(min, max) {
-			return Math.floor(Math.random() * (max - min + 1) + min);
-		}
-
-		var randomColor = colors[randomInt(0, colors.length)];
-		document.body.style.backgroundColor = randomColor;
-
 		var spriteURL = '/assets/img/sprite/pablo.png';
 		var spriteMap = [[0,0,660,560],[710,0,160,480],[950,0,220,190],[1250,0,140,145],[1420,0,220,297],[1650,0,135,190],[1800,0,560,75],[2375,0,160,100],[2540,0,362,100],[2910,0,615,70],[3540,0,90,95]];
 	</script>

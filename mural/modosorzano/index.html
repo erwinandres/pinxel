@@ -44,18 +44,5 @@
 		<a href="/mural/modosorzano/tesla/"><img src="/assets/img/mosaicos/nmuerta/cuadro22.jpg" width="4160" height="3119"></a>
 		<a href="/mural/modosorzano/herge/"><img src="/assets/img/mosaicos/nmuerta/cuadro71.jpg" width="4160" height="3119"></a>
 	</div>
-	<script>
-		var colors = ['#23408f', '#00aeef', '#f05a72', '#f9ae18', '#832b7c', '#217d51', '#9dc55c', '#00a050', '#fff200', '#dde4cd',' #d0bf7d', '#008f4c'];
-
-		function randomInt(min, max) {
-			return Math.floor(Math.random() * (max - min + 1) + min);
-		}
-
-		var randomColor = colors[randomInt(0, colors.length)];
-		document.body.style.backgroundColor = randomColor;
-
-		var themeColorMeta = document.querySelector('meta[name="theme-color"]');
-		themeColorMeta.setAttribute('content', randomColor);
-	</script>
 </body>
 </html>

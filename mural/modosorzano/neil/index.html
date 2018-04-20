@@ -116,21 +116,12 @@
 
 			<p class="help">Manten presionada (Móvil), arrastra o haz click derecho (PC) en la imagen para guardarla.</p>
 		</div>
-		<div class="progress">
-			<div id="progress-text" class="progress-text"></div>
-		</div>
+	</div>
+	<div class="progress">
+		<div id="progress-text" class="progress-text"></div>
 	</div>
 
 	<script>
-		var colors = ['#23408f', '#00aeef', '#f05a72', '#f9ae18', '#832b7c', '#217d51', '#9dc55c', '#00a050', '#fff200', '#dde4cd',' #d0bf7d', '#008f4c'];
-
-		function randomInt(min, max) {
-			return Math.floor(Math.random() * (max - min + 1) + min);
-		}
-
-		var randomColor = colors[randomInt(0, colors.length)];
-		document.body.style.backgroundColor = randomColor;
-
 		var spriteURL = '/assets/img/sprite/neil.png';
 		var spriteMap = [[0,0,730,580],[760,0,125,125],[950,0,140,235],[1100,0,220,235],[1350,0,152,500],[1540,0,180,405],[1740,0,240,205],[2070,0,195,112],[2290,0,70,90],[2390,0,175,205],[2630,0,100,125],[2790,0,545,40],[3351,0,289,55],[3670,0,45,55],[3778,0,37,35],[3870,0,50,55],[3980,0,230,270]]
 	</script>
