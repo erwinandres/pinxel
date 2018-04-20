@@ -161,31 +161,7 @@ sprite.onload = function() {
 	createObjectsButtons();
 }
 
-sprite.src = '/assets/img/sprite/lennon.png';
-
-const spriteMap = [
-	[0, 0, 734, 618],
-	[734, 0, 310, 56],
-	[734, 56, 310, 56],
-	[734, 120, 310, 56],
-	[734, 186, 310, 56],
-	[734, 266, 310, 56],
-	[1041, 56, 95, 65],
-	[1041, 120, 95, 65],
-	[1041, 186, 97, 78],
-	[1140, 56, 97, 62],
-	[1140, 120, 97, 62],
-	[1140, 186, 97, 62],
-	[1236, 56, 101, 61],
-	[1236, 120, 101, 61],
-	[1236, 186, 101, 61],
-	[1334, 0, 277, 579],
-	[1613, 0, 346, 280],
-	[1962, 0, 353, 264],
-	[2312, 0, 178, 125],
-	[2490, 0, 165, 120],
-	[2651, 0, 143, 120],
-];
+sprite.src = spriteURL;
 
 const bgSound = new Howl({
 	src: ['/assets/sounds/background1.wav'],
@@ -214,7 +190,7 @@ function createObjectsButtons() {
 
 		button.className = 'itemButton';
 
-		button.style.backgroundImage = 'url(/assets/img/sprite/lennon.png)';
+		button.style.backgroundImage = 'url(' + spriteURL + ')';
 		button.style.width = newSizes.tileW + 'px';
 		button.style.height = newSizes.tileH + 'px';
 		button.style.backgroundPosition = '-' + newSizes.tileX + 'px -' + newSizes.tileY + 'px';

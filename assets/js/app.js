@@ -163,22 +163,7 @@ sprite.onload = function() {
 	createObjectsButtons();
 }
 
-sprite.src = '/assets/img/sprite/jeanneret.png';
-
-var spriteMap = [
-	[0, 0, 730, 634],
-	[730, 0, 207, 505],
-	[937, 0, 204, 183],
-	[1141, 0, 227, 147],
-	[1368, 0, 113, 109],
-	[1481, 0, 99, 97],
-	[1580, 0, 114, 105],
-	[1694, 0, 97, 59],
-	[1787, 0, 221, 37],
-	[2008, 0, 242, 55],
-	[2250, 0, 230, 37],
-	[2480, 0, 329, 143]
-];
+sprite.src = spriteURL;
 
 var bgSound = new Howl({
 	src: ['/assets/sounds/background1.wav'],
@@ -207,7 +192,7 @@ function createObjectsButtons() {
 
 		button.className = 'itemButton';
 
-		button.style.backgroundImage = 'url(/assets/img/sprite/jeanneret.png)';
+		button.style.backgroundImage = 'url(' + spriteURL + ')';
 		button.style.width = newSizes.tileW + 'px';
 		button.style.height = newSizes.tileH + 'px';
 		button.style.backgroundPosition = '-' + newSizes.tileX + 'px -' + newSizes.tileY + 'px';
@@ -331,6 +316,8 @@ function paintObjects() {
 
 function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = "white";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	//filters.apply(ctx);
 	paintBg();
@@ -413,7 +400,7 @@ function onTouchEndOrMouseUp(e) {
 }
 
 function finish() {
-	var imageData = canvas.toDataURL('image/png');
+	var imageData = canvas.toDataURL('image/jpeg', 1.0);
 	var image = new Image();
 	image.src = imageData;
 
@@ -454,7 +441,9 @@ function postImage(image) {
 		.then(res => res.json())
 		.then(json => {
 			progressText.innerHTML = '<p>Tu obra de arte ha sido subida.</p><p>Redireccionando...</p>';
-			window.location.replace('/galeria');;
+			setTimeout(function() {
+				window.location.replace('/galeria');;
+			}, 3000);
 		})
 }
 
