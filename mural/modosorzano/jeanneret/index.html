@@ -49,10 +49,39 @@
 			font-weight: bold;
 		}
 
+		.uploadButton {
+			display: block;
+			margin: 1.5rem auto;
+			background: #217d51;
+			border: none;
+			color: #fff;
+			padding: .5em 1em;
+			font-size: 1.5em;
+			font-weight: bold;
+		}
+
 		.help {
 			width: 90%;
 			max-width: 460px;
 			margin: 0 auto;
+		}
+
+		.progress {
+			display: none;
+		}
+
+		.progress-text {
+			text-align: center;
+			font-size: 1.4em;
+			margin: 4.5rem 0;
+		}
+
+		.uploading .view {
+			display: none;
+		}
+
+		.uploading .progress {
+			display: block;
 		}
 	</style>
 </head>
@@ -83,9 +112,14 @@
 		<div class="result">
 			<div id="finish-holder" class="resultWrapper"></div>
 			<button id="back" class="backToEdit">Seguir editando</button>
+			<button id="upload-button" class="uploadButton">Subir</button>
 
 			<p class="help">Manten presionada (Móvil), arrastra o haz click derecho (PC) en la imagen para guardarla.</p>
 		</div>
+	</div>
+
+	<div class="progress">
+		<div id="progress-text" class="progress-text"></div>
 	</div>
 
 	<script src="/assets/js/vendor/howler.js"></script>

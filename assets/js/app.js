@@ -97,6 +97,8 @@ var buttonsContainer = document.getElementById('buttons');
 var finishButton = document.getElementById('finish');
 var finishHolder = document.getElementById('finish-holder');
 var backButton = document.getElementById('back');
+var uploadButton = document.getElementById('upload-button');
+var progressText = document.getElementById('progress-text');
 
 var spriteLoaded = false;
 var touchedObject = -1;
@@ -411,12 +413,48 @@ function onTouchEndOrMouseUp(e) {
 }
 
 function finish() {
-	var imageData = canvas.toDataURL();
+	var imageData = canvas.toDataURL('image/png');
 	var image = new Image();
 	image.src = imageData;
 
 	finishHolder.appendChild(image);
 	view.classList.add('view-result');
+}
+
+function upload() {
+	var image = finishHolder.querySelector('img');
+
+	if (!image || image.src.length === 0) {
+		progressText.innerHTML = '<p>Debes finalizar tu obra antes de subirla.</p>'
+		return;
+	}
+
+	document.body.classList.add('uploading');
+	progressText.innerHTML = '<p>Subiendo tu obra de arte...</p>';
+
+	postImage(image);
+}
+
+function postImage(image) {
+	var token = 'e4d1d49e9b5e0284d4818a18daadfa2f6873f29f';
+	var albumId = 'ojGoQ37';
+	var imageBase64 = image.src.split('base64,')[1];
+	var form = new FormData();
+	form.append('image', imageBase64);
+	form.append('album', albumId);
+
+	fetch('https://api.imgur.com/3/image', {
+		method: 'POST',
+		headers: {
+			Authorization: 'Bearer ' + token,
+			Accept: 'application/json',
+		},
+		body: form
+	})
+		.then(res => res.json())
+		.then(data => {
+			progressText.innerHTML = '<p>Tu obra de arte ha sido subida.</p>';
+		})
 }
 
 function backToEdit() {
@@ -426,6 +464,7 @@ function backToEdit() {
 
 finishButton.addEventListener('click', finish);
 back.addEventListener('click', backToEdit);
+uploadButton.addEventListener('click', upload);
 
 canvas.addEventListener('touchstart', onTouchStartOrMouseDown, false);
 canvas.addEventListener('touchmove', onTouchMoveOrMouseMove, false);
